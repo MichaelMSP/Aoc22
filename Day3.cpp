@@ -8,8 +8,9 @@
 #include <algorithm>
 #include <numeric>
 #include <unordered_set>
+#include <ranges>
 
-#include "HelperFunctions.cpp";
+#include "HelperFunctions.cpp"
 
 class Day3
 {
@@ -45,7 +46,59 @@ class Day3
     return std::nullopt;
   }
 
+  auto static FindPrioritySum(std::vector<std::string> inputs) -> int
+  {
+    int sum = 0;
+    for (std::string s : inputs)
+    {
+      auto c = FindDuplicate(s);
+      if (c)
+      {
+        // std::cout << "Got " << *c << " with priority " << Priority(*c) << std::endl;
+        sum += Priority(*c);
+      }
+      else
+      {
+        std::cerr << "Failed to get priority for string " << s << std::endl;
+      }
+    }
 
+    return sum;
+  }
+
+  auto static FindCommonItems(std::vector<std::string> inputs) -> int
+  {
+    // This would be nice, but it is for C++23, not C++ 20.
+    // for (const auto& chunk : inputs | std::views::chunk(3))
+    // {
+      // Perform operations on chunk[0], chunk[1] and chunk[2]
+    // }
+
+    int priority = 0;
+    // Iterate through the vector in groups of three
+    for (std::size_t i = 0; i < inputs.size(); i += 3) {
+      std::unordered_set bag1 = std::unordered_set(inputs[i].begin(), inputs[i].end());
+      std::unordered_set bag2 = std::unordered_set(inputs[i + 1].begin(), inputs[i + 1].end());
+      std::unordered_set bag3 = std::unordered_set(inputs[i + 2].begin(), inputs[i + 2].end());
+
+      std::vector<char> toRemove = std::vector<char>();
+      for (char c : bag1)
+      {
+        if (bag2.count(c) == 0 || bag3.count(c) == 0) 
+        {
+          toRemove.push_back(c);
+        }
+      }
+
+      for (char c : toRemove)
+        bag1.erase(c);
+
+      // There should now be only 1 element left in bag1.
+      priority += Priority(*(bag1.begin()));
+    }
+
+    return priority;
+  }
 
   public: 
   ///
@@ -55,23 +108,11 @@ class Day3
   {
     auto inputs = ReadInput("day3_input.txt");
 
-    int sum = 0;
-    for (std::string s : inputs)
-    {
-      auto c = FindDuplicate(s);
-      if (c)
-      {
-        std::cout << "Got " << *c << " with priority " << Priority(*c) << std::endl;
-        sum += Priority(*c);
-      }
-      else
-      {
-        std::cerr << "Failed to get priority for string " << s << std::endl;
-      }
-    }
+    int sum = FindPrioritySum(inputs);
+    int sum2 = FindCommonItems(inputs);
 
     std::cout << "Day 3 Part 1: " << sum << std::endl;
-    // std::cout << "Day 3 Part 2: " << sol2 << std::endl;
+    std::cout << "Day 3 Part 2: " << sum2 << std::endl;
   };
 };
 #endif

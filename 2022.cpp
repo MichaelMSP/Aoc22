@@ -1,14 +1,14 @@
 // 2022.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>;
-#include <vector>;
-#include <string>;
-#include <fstream>;
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
 
-#include "Day1.cpp";
-#include "Day2.cpp";
-#include "Day3.cpp";
+#include "Day1.cpp"
+#include "Day2.cpp"
+#include "Day3.cpp"
 
 int main()
 {
