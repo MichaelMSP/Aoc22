@@ -23,6 +23,7 @@ set(Inputs
     inputs/day1_input.txt
     inputs/day2_input.txt
     inputs/day3_input.txt
+    inputs/day4_input.txt
 )
 
 foreach(file ${Inputs})

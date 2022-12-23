@@ -11,15 +11,15 @@
 /// @return The vector of strings.
 auto static ReadInput(std::string filename) -> std::vector<std::string>
 {
-std::vector<std::string> inputs;
-std::ifstream input(filename);
-std::string line;
-while (std::getline(input, line))
-{
-    inputs.emplace_back(line);
-}
+    std::vector<std::string> inputs;
+    std::ifstream input(filename);
+    std::string line;
+    while (std::getline(input, line))
+    {
+        inputs.emplace_back(line);
+    }
 
-return inputs;
+    return inputs;
 };
 
 #endif
