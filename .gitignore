@@ -2,3 +2,6 @@
 **/build-msvc/*
 **/x64/*
 **/.vscode/*
+*.vcxproj
+*.filters
+*.user

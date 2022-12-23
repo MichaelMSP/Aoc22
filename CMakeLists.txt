@@ -9,10 +9,12 @@ set(CMAKE_CXX_STANDARD 20)
 
 set (AOC_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/2022.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/days.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/HelperFunctions.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Day1.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Day2.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Day3.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Day4.cpp
 )
 
 add_executable(AoC2022 ${AOC_SRC})
