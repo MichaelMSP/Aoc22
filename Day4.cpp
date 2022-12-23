@@ -21,7 +21,7 @@ struct range {
   range(int s, int e) : start(s), end(e) {}
 };
 
-auto ParseInput(std::vector<std::string> &inputs) -> std::vector<std::pair<range, range>>
+auto ParseInput(const std::vector<std::string> &inputs) -> std::vector<std::pair<range, range>>
 {
   std::vector<std::pair<range, range>> result;
   for (const auto &line : inputs)
@@ -49,6 +49,15 @@ auto InclusiveCompare(int result, const std::pair<range, range>& input)
   return result;
 }
 
+auto ExclusiveCompare(int result, const std::pair<range, range>& input)
+{
+  if (input.first.start <= input.second.end && input.first.start >= input.second.start) result++;
+  else if (input.first.end >= input.second.start && input.first.end <= input.second.end) result++;
+  else if (input.second.start >= input.first.end && input.second.start <= input.first.start) result++;
+  else if (input.second.end >= input.first.start && input.second.end <= input.first.end) result++;
+  return result;
+}
+
 } // namespace Day4
 
 ///
@@ -60,6 +69,7 @@ auto Days::solution4() -> Answers
   auto spans = Day4::ParseInput(inputs);
 
   auto sol1 = std::accumulate(spans.begin(), spans.end(), 0, Day4::InclusiveCompare);
+  auto sol2 = std::accumulate(spans.begin(), spans.end(), 0, Day4::ExclusiveCompare);
 
-  return {std::to_string(sol1),""};
+  return {std::to_string(sol1),std::to_string(sol2)};
 }
