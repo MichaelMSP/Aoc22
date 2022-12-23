@@ -23,7 +23,7 @@ struct range {
 
 auto ParseInput(std::vector<std::string> &inputs) -> std::vector<std::pair<range, range>>
 {
-  std::vector<std::pair<range, range>> parsed;
+  std::vector<std::pair<range, range>> result;
   for (const auto &line : inputs)
   {
     std::stringstream input_line(line);
@@ -31,10 +31,22 @@ auto ParseInput(std::vector<std::string> &inputs) -> std::vector<std::pair<range
     char separator;
     input_line >> start1 >> separator >> end1 >> separator >> start2 >> separator >> end2;
 
-    parsed.emplace_back(range(start1, end1), range(start2, end2));
+    std::pair p = {range(start1, end1), range(start2, end2)};
+
+    result.push_back(p);
   }
 
-  return parsed;
+  return result;
+}
+
+auto InclusiveCompare(int result, const std::pair<range, range>& input)
+{
+  if (input.first.start <= input.second.start && input.first.end >= input.second.end)
+    result++;
+  else if (input.second.start <= input.first.start && input.second.end >= input.first.end)
+    result++;
+
+  return result;
 }
 
 } // namespace Day4
@@ -47,12 +59,7 @@ auto Days::solution4() -> Answers
   auto inputs = ReadInput("day4_input.txt");
   auto spans = Day4::ParseInput(inputs);
 
-  
+  auto sol1 = std::accumulate(spans.begin(), spans.end(), 0, Day4::InclusiveCompare);
 
-//   int sum = FindPrioritySum(inputs);
-//   int sum2 = FindCommonItems(inputs);
-
-//   std::cout << "Day 3 Part 1: " << sum << std::endl;
-//   std::cout << "Day 3 Part 2: " << sum2 << std::endl;
-  return {"",""};
+  return {std::to_string(sol1),""};
 }
