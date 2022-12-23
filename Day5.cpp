@@ -21,7 +21,7 @@ namespace Day5
 
   auto ParseStacks(std::string filename) -> std::tuple<std::vector<std::deque<char>>, std::vector<Instruction>>
   {
-    std::vector<std::deque<char>> existing_stacks;
+    std::vector<std::deque<char>> existing_stacks = {{},{},{},{},{},{},{},{},{}};
     std::vector<std::string> existing_stacks_txt;
     std::vector<Instruction> instructions;
 
@@ -37,7 +37,7 @@ namespace Day5
         read_inst >> word >> quan >> word >> src >> word >> dest;
         instructions.emplace_back(quan, src, dest);
       }
-      if (line.empty() || line.starts_with(" 1"))
+      else if (line.empty() || line.starts_with(" 1"))
       {
         // Do nothing.
       }
@@ -50,10 +50,67 @@ namespace Day5
     std::ranges::reverse_view rv {existing_stacks_txt};
     for (auto line : rv)
     {
-
+      size_t pos = 0;
+      while((pos = line.find_first_of("[", pos)) != std::string::npos)
+      {
+        int idx = pos / 4;
+        existing_stacks[idx].push_back(line[pos + 1]);
+        pos++;
+      }
     }
 
     return {existing_stacks, instructions};
+  }
+
+  // Specifically cannot pass by reference, or stacks is in the wrong starting
+  // configuration for part 2.
+  auto MoveCratesIndividually(std::vector<std::deque<char>> stacks, std::vector<Instruction>& instructions) -> std::string
+  {
+    // Loop all instructions. For each one, perform a move the number of times given.
+    for (auto instr : instructions)
+    {
+      for (int num = 0; num < instr.quantity; num++)
+      {
+        stacks[instr.dest - 1].push_back(stacks[instr.src - 1].back());
+        stacks[instr.src - 1].pop_back();
+      }
+    }
+
+    std::string result;
+    for(auto stack : stacks)
+    {
+      result.push_back(stack.back());
+    }
+
+    return result;
+  }
+
+  auto MoveCratesTogether(std::vector<std::deque<char>> stacks, std::vector<Instruction>& instructions) -> std::string
+  {
+    // Loop all instructions. For each one, perform a move the number of times given.
+    for (auto instr : instructions)
+    {
+      std::deque<char> crane;
+      for (int num = 0; num < instr.quantity; num++)
+      {
+        crane.push_back(stacks[instr.src - 1].back());
+        stacks[instr.src - 1].pop_back();
+      }
+
+      for (int num = 0; num < instr.quantity; num++)
+      {
+        stacks[instr.dest - 1].push_back(crane.back());
+        crane.pop_back();
+      }
+    }
+
+    std::string result;
+    for(auto stack : stacks)
+    {
+      result.push_back(stack.back());
+    }
+
+    return result;
   }
 
 } // namespace Day5
@@ -64,9 +121,8 @@ namespace Day5
 auto Days::solution5() -> Answers
 {
   auto [existing_stacks, instructions] = Day5::ParseStacks("day5_input.txt");
+  auto sol1 = Day5::MoveCratesIndividually(existing_stacks, instructions);
+  auto sol2 = Day5::MoveCratesTogether(existing_stacks, instructions);
 
-  auto sol1 = -1;
-  auto sol2 = -1;
-
-  return {std::to_string(sol1),std::to_string(sol2)};
+  return {sol1, sol2};
 }
