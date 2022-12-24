@@ -11,7 +11,7 @@ const std::unordered_map<int, std::function<Days::Answers()>> solutionForChoice 
     {4, Days::solution4},
     {5, Days::solution5},
     {6, Days::solution6},
-    // {7, Days::solution7},
+    {7, Days::solution7},
     // {8, Days::solution8}
 };
 
