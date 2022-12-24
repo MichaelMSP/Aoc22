@@ -16,6 +16,7 @@ set (AOC_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/Day3.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Day4.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Day5.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Day6.cpp
 )
 
 add_executable(AoC2022 ${AOC_SRC})
@@ -26,6 +27,7 @@ set(Inputs
     inputs/day3_input.txt
     inputs/day4_input.txt
     inputs/day5_input.txt
+    inputs/day6_input.txt
 )
 
 foreach(file ${Inputs})

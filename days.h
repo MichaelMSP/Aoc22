@@ -13,7 +13,7 @@ namespace Days {
     auto solution3() -> Answers;
     auto solution4() -> Answers;
     auto solution5() -> Answers;
-    // auto solution6() -> Answers;
+    auto solution6() -> Answers;
     // auto solution7() -> Answers;
     // auto solution8() -> Answers;
 
